@@ -4,7 +4,7 @@
 #
 Name     : hicolor-icon-theme
 Version  : 0.17
-Release  : 10
+Release  : 11
 URL      : http://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz
 Source0  : http://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz
 Summary  : No detailed summary available
