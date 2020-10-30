@@ -4,13 +4,14 @@
 #
 Name     : hicolor-icon-theme
 Version  : 0.17
-Release  : 11
+Release  : 12
 URL      : http://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz
 Source0  : http://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0
-Requires: hicolor-icon-theme-data
+Requires: hicolor-icon-theme-data = %{version}-%{release}
+Requires: hicolor-icon-theme-license = %{version}-%{release}
 
 %description
 This is the default fallback theme used by implementations of the icon
@@ -24,28 +25,44 @@ Group: Data
 data components for the hicolor-icon-theme package.
 
 
+%package license
+Summary: license components for the hicolor-icon-theme package.
+Group: Default
+
+%description license
+license components for the hicolor-icon-theme package.
+
+
 %prep
 %setup -q -n hicolor-icon-theme-0.17
+cd %{_builddir}/hicolor-icon-theme-0.17
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1504184509
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1604084753
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 %configure --disable-static
-make V=1  %{?_smp_mflags}
+make  %{?_smp_mflags}
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1504184509
+export SOURCE_DATE_EPOCH=1604084753
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/hicolor-icon-theme
+cp %{_builddir}/hicolor-icon-theme-0.17/COPYING %{buildroot}/usr/share/package-licenses/hicolor-icon-theme/fbf1ca3836c050241ed2fde6ac3a515313f30e8b
 %make_install
 
 %files
@@ -54,3 +71,7 @@ rm -rf %{buildroot}
 %files data
 %defattr(-,root,root,-)
 /usr/share/icons/hicolor/index.theme
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/hicolor-icon-theme/fbf1ca3836c050241ed2fde6ac3a515313f30e8b
